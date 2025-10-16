@@ -1,0 +1,36 @@
+{
+    "name": "character-chat-backend",
+    "version": "1.0.0",
+    "description": "Character Chat Backend - An Express.js application with user authentication and chat functionality.",
+    "main": "index.js",
+    "author": "Parmanand Parihar",
+    "license": "ISC",
+    "scripts": {
+        "start": "node index.js",
+        "dev": "nodemon index.js"
+    },
+    "dependencies": {
+        "axios": "^1.3.4",
+        "bcrypt": "^5.1.0",
+        "binary-parser": "^2.2.1",
+        "connect-flash": "^0.1.1",
+        "connect-mongo": "^4.4.0-rc1",
+        "cookie-parser": "^1.4.6",
+        "cors": "^2.8.5",
+        "dotenv": "^16.0.3",
+        "ejs": "^3.1.9",
+        "express": "^4.18.2",
+        "express-ejs-layouts": "^2.5.1",
+        "express-session": "^1.17.3",
+        "helmet": "^8.1.0",
+        "kue": "^0.11.6",
+        "mongoose": "^7.0.2",
+        "node-cron": "^4.2.1",
+        "nodemailer": "^6.9.1",
+        "passport": "^0.6.0",
+        "passport-google-oauth20": "^2.0.0",
+        "passport-local": "^1.0.0",
+        "stripe": "^19.1.0",
+        "validator": "^13.9.0"
+    }
+}
