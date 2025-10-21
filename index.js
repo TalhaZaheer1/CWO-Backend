@@ -32,7 +32,7 @@ app.post('/api/payment/webhook', express.raw({ type: 'application/json' }), requ
 
 app.use(cors({
     origin: process.env.FRONTEND_URL,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
     optionsSuccessStatus: 204,
     exposedHeaders: ['X-Limit-Reached'],
@@ -79,8 +79,6 @@ app.use(passport.setAuthenticatedUser);
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// Use middleware to serve static files (absolute path for reliability)
-app.use(express.static(path.join(__dirname, 'assets')));
 
 // Use routes
 app.use('/api', require('./routes'));
