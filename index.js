@@ -22,15 +22,22 @@ if (process.env.NODE_ENV !== 'test') {
 // Create an express application
 const app = express();
 
-app.use(cors({
-    origin: process.env.FRONTEND_URL,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    credentials: true,
-    optionsSuccessStatus: 204,
-    exposedHeaders: ['X-Limit-Reached'],
+// Security headers with fixed permissions policy
+app.use(helmet({
+  crossOriginEmbedderPolicy: false,
+  contentSecurityPolicy: false,
 }));
-// Security headers
-app.use(helmet());
+
+// CORS - must come early
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'https://www.oscarr.app',
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+  credentials: true,
+  optionsSuccessStatus: 200,
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Cookie'],
+  exposedHeaders: ['X-Limit-Reached'],
+}));
+app.options('*', cors());
 
 // Stripe webhook (must be before express.json!)
 app.post('/api/payment/webhook', express.raw({ type: 'application/json' }), require('./controllers/payment_controller').handleWebhook);
