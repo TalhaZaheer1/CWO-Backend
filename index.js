@@ -22,6 +22,9 @@ if (process.env.NODE_ENV !== 'test') {
 // Create an express application
 const app = express();
 
+app.set('trust proxy', 1);
+
+
 // Security headers with fixed permissions policy
 app.use(helmet({
   crossOriginEmbedderPolicy: false,
