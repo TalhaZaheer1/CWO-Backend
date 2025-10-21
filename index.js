@@ -72,7 +72,7 @@ app.use(
       maxAge: 1000 * 60 * 100,
       httpOnly: true,
       sameSite: 'none',
-      secure: process.env.NODE_ENV === 'production',
+      secure: true,
     },
     store: MongoStore.create({
       mongoUrl: process.env.DB_CONNECTION,
