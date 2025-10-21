@@ -12,6 +12,7 @@ const passportLocal = require('./config/passport-local');
 const passportGoogle = require('./config/passport-google');
 const cors = require('cors');
 const helmet = require('helmet');
+const expressLayouts = require('express-ejs-layouts');
 
 // Start scheduled jobs (reset messageCount) only if not in test env
 if (process.env.NODE_ENV !== 'test') {
@@ -74,11 +75,11 @@ app.use(express.urlencoded({ extended: true }));
 
 
 // Configure the express application
-// app.set('view engine', 'ejs'); // set the view engine to EJS
-// app.set('views', path.join(__dirname, 'views')); // set the views directory path
-// app.set('layout extractStyles', true); // extract styles from layout
-// app.set('layout extractScripts', true); // extract scripts from layout
-// app.use(expressLayouts); // use express-ejs-layouts for rendering views
+ app.set('view engine', 'ejs'); // set the view engine to EJS
+ app.set('views', path.join(__dirname, 'views')); // set the views directory path
+ app.set('layout extractStyles', true); // extract styles from layout
+ app.set('layout extractScripts', true); // extract scripts from layout
+app.use(expressLayouts); // use express-ejs-layouts for rendering views
 
 
 
