@@ -42,8 +42,13 @@ app.options('*', cors());
 // Stripe webhook (must be before express.json!)
 app.post('/api/payment/webhook', express.raw({ type: 'application/json' }), require('./controllers/payment_controller').handleWebhook);
 
+app.use(cookieParser());
+
+
 app.use(express.json());
 
+// Use middleware to parse request body and cookies
+app.use(express.urlencoded({ extended: true }));
 
 
 
@@ -53,6 +58,8 @@ app.use(express.json());
 // app.set('layout extractStyles', true); // extract styles from layout
 // app.set('layout extractScripts', true); // extract scripts from layout
 // app.use(expressLayouts); // use express-ejs-layouts for rendering views
+
+
 
 // Configure session middleware
 app.use(
@@ -82,9 +89,7 @@ app.use(passport.setAuthenticatedUser);
 // // Use flash middleware to display flash messages
 // app.use(flash());
 
-// Use middleware to parse request body and cookies
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+
 
 
 // Use routes
