@@ -29,13 +29,13 @@ app.use(cors({
     optionsSuccessStatus: 204,
     exposedHeaders: ['X-Limit-Reached'],
 }));
-app.use(express.json());
 // Security headers
 app.use(helmet());
 
 // Stripe webhook (must be before express.json!)
 app.post('/api/payment/webhook', express.raw({ type: 'application/json' }), require('./controllers/payment_controller').handleWebhook);
 
+app.use(express.json());
 
 
 
