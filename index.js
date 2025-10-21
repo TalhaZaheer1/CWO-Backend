@@ -43,24 +43,6 @@ app.options('*', cors());
 app.post('/api/payment/webhook', express.raw({ type: 'application/json' }), require('./controllers/payment_controller').handleWebhook);
 
 app.use(cookieParser());
-
-
-app.use(express.json());
-
-// Use middleware to parse request body and cookies
-app.use(express.urlencoded({ extended: true }));
-
-
-
-// Configure the express application
-// app.set('view engine', 'ejs'); // set the view engine to EJS
-// app.set('views', path.join(__dirname, 'views')); // set the views directory path
-// app.set('layout extractStyles', true); // extract styles from layout
-// app.set('layout extractScripts', true); // extract scripts from layout
-// app.use(expressLayouts); // use express-ejs-layouts for rendering views
-
-
-
 // Configure session middleware
 app.use(
   session({
@@ -80,6 +62,24 @@ app.use(
     }),
   })
 );
+
+app.use(express.json());
+
+// Use middleware to parse request body and cookies
+app.use(express.urlencoded({ extended: true }));
+
+
+
+// Configure the express application
+// app.set('view engine', 'ejs'); // set the view engine to EJS
+// app.set('views', path.join(__dirname, 'views')); // set the views directory path
+// app.set('layout extractStyles', true); // extract styles from layout
+// app.set('layout extractScripts', true); // extract scripts from layout
+// app.use(expressLayouts); // use express-ejs-layouts for rendering views
+
+
+
+
 
 // Initialize passport and set user authentication middleware
 app.use(passport.initialize());
