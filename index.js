@@ -15,7 +15,7 @@ const helmet = require('helmet');
 
 // Start scheduled jobs (reset messageCount) only if not in test env
 if (process.env.NODE_ENV !== 'test') {
-    require('./tasks/resetMessageCount');
+  require('./tasks/resetMessageCount');
 }
 
 
@@ -47,7 +47,7 @@ app.use(express.json());
 
 
 
- // Configure the express application
+// Configure the express application
 // app.set('view engine', 'ejs'); // set the view engine to EJS
 // app.set('views', path.join(__dirname, 'views')); // set the views directory path
 // app.set('layout extractStyles', true); // extract styles from layout
@@ -56,22 +56,22 @@ app.use(express.json());
 
 // Configure session middleware
 app.use(
-    session({
-        name: 'auth-cookies',
-        secret: process.env.SESSION_KEY,
-        saveUninitialized: false,
-        resave: false,
-        cookie: {
-            maxAge: 1000 * 60 * 100,
-            httpOnly: true,
-            sameSite: 'lax',
-            secure: process.env.NODE_ENV === 'production',
-        },
-        store: MongoStore.create({
-            mongoUrl: process.env.DB_CONNECTION,
-            autoRemove: 'disabled',
-        }),
-    })
+  session({
+    name: 'auth-cookies',
+    secret: process.env.SESSION_KEY,
+    saveUninitialized: false,
+    resave: false,
+    cookie: {
+      maxAge: 1000 * 60 * 100,
+      httpOnly: true,
+      sameSite: 'none',
+      secure: process.env.NODE_ENV === 'production',
+    },
+    store: MongoStore.create({
+      mongoUrl: process.env.DB_CONNECTION,
+      autoRemove: 'disabled',
+    }),
+  })
 );
 
 // Initialize passport and set user authentication middleware
@@ -93,16 +93,16 @@ app.use('/api', require('./routes'));
 
 // Global error handlers for production reliability
 process.on('unhandledRejection', (reason, promise) => {
-    console.error('Unhandled Rejection:', reason);
+  console.error('Unhandled Rejection:', reason);
 });
 process.on('uncaughtException', (err) => {
-    console.error('Uncaught Exception:', err);
-    process.exit(1);
+  console.error('Uncaught Exception:', err);
+  process.exit(1);
 });
 
 app.listen(process.env.PORT, (err) => {
-    if (err) {
-        console.error('Error while running server!', err);
-    }
-    console.log(`Server running on port ${process.env.PORT} [${process.env.NODE_ENV || 'development'}]`);
+  if (err) {
+    console.error('Error while running server!', err);
+  }
+  console.log(`Server running on port ${process.env.PORT} [${process.env.NODE_ENV || 'development'}]`);
 });
