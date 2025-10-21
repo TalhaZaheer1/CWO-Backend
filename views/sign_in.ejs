@@ -1,0 +1,32 @@
+<h3 class="mb-5">Sign in</h3>
+<form action="/create-session" id="create-sesion-form" method="post">
+    <div class="form-outline mb-4">
+        <input type="email" name="email" id="email" required placeholder="Email" />
+    </div>
+    <div class="form-outline mb-4">
+        <input type="password" name="password" id="password" required placeholder="Password" />
+    </div>
+    <button class="g-recaptcha btn btn btn-primary btn-lg btn-block" value="Sign in" data-sitekey="<%= locals.site_key %>" data-callback='onSubmit' data-action='submit'>Sign in</button>
+
+    <div class="divider d-flex align-items-center my-4">
+        <p class="text-center fw-bold mx-3 mb-0 text-muted">OR</p>
+    </div>
+    <a href="/auth/google" class="btn btn-lg btn-block btn-primary" style="background-color: #dd4b39;">
+        <i class="fab fa-google me-2"></i> Sign in with google</a>
+    <br>
+    <div class="text-center pt-5 mb-3 pb-1">
+        <a class="text-muted" href="/forgot-password">Forgot password?</a>
+    </div>
+    <div class="d-flex align-items-center justify-content-center pb-2">
+        <p class="mb-0 me-2">Don't have an account?</p>
+        <a href="/sign-up" class="btn btn-outline-primary">Sign up</a>
+    </div>
+</form>
+
+<script src="https://www.google.com/recaptcha/api.js"></script>
+<script>
+    function onSubmit(token) {
+        let cs_form = document.getElementById("create-sesion-form");
+        cs_form.submit();
+    }
+</script>
