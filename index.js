@@ -22,14 +22,6 @@ if (process.env.NODE_ENV !== 'test') {
 // Create an express application
 const app = express();
 
-
-// Security headers
-app.use(helmet());
-
-// Stripe webhook (must be before express.json!)
-app.post('/api/payment/webhook', express.raw({ type: 'application/json' }), require('./controllers/payment_controller').handleWebhook);
-
-
 app.use(cors({
     origin: process.env.FRONTEND_URL,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
@@ -38,6 +30,14 @@ app.use(cors({
     exposedHeaders: ['X-Limit-Reached'],
 }));
 app.use(express.json());
+// Security headers
+app.use(helmet());
+
+// Stripe webhook (must be before express.json!)
+app.post('/api/payment/webhook', express.raw({ type: 'application/json' }), require('./controllers/payment_controller').handleWebhook);
+
+
+
 
 
  // Configure the express application
