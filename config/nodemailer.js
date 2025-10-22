@@ -28,8 +28,9 @@ let transporter = nodemailer.createTransport({
 
 // Verify transporter connection
 transporter.verify(function(error, success) {
+    console.log('Verifying SMTP transporter...');
     if (error) {
-        console.error('SMTP connection error:', error);
+        console.log('SMTP connection error:', error);
     } else {
         console.log('SMTP server is ready to take our messages');
     }
