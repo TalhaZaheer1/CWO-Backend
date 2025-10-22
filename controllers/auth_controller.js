@@ -115,9 +115,15 @@ module.exports.updatePassword = async function (req, res) {
         ).exec();
 
         if (updatedUser) {
-            // req.flash('success', 'Password updated.');
-            authMailer.passwordChangeAlertMail(user);
-            return res.json(genJsonResponse(true, "Passoword updated."));
+            // Send email and handle any errors
+            try {
+                await authMailer.passwordChangeAlertMail(user);
+                return res.json(genJsonResponse(true, "Password updated."));
+            } catch (emailError) {
+                console.error('Failed to send password change alert:', emailError);
+                // Still return success since password was updated
+                return res.json(genJsonResponse(true, "Password updated but failed to send email notification."));
+            }
         }
     } catch (err) {
         console.log('Error : ', err);
@@ -160,9 +166,14 @@ module.exports.sendPasswordResetLink = async function (req, res) {
             }).save();
             // let baseURL = process.env.BASE_URL;
             user.resetLink = `${FRONTEND_URL}/reset-password?id=${user._id}&key=${resetToken}`;
-            authMailer.passwordResetLinkMail(user);
-            res.json(genJsonResponse(true, 'An email has been sent to mailbox. please follow the instructions to reset your password.'
-            ))
+            
+            try {
+                await authMailer.passwordResetLinkMail(user);
+                res.json(genJsonResponse(true, 'An email has been sent to your mailbox. Please follow the instructions to reset your password.'));
+            } catch (emailError) {
+                console.error('Failed to send reset email:', emailError);
+                res.status(500).json(genJsonResponse(false, 'Failed to send reset email. Please try again.'));
+            }
         } else {
             res.status(400).json(genJsonResponse(false, `Email is not registered with us. Please retry will correct email.`))
         }
@@ -238,10 +249,14 @@ module.exports.verifyAndSetNewPassword = async function (req, res) {
         // Sending email to the user to notify them of password change.
         const user = await User.findById(id);
 
-        authMailer.passwordChangeAlertMail(user);
-
-        // Redirecting the user to the login page.
-        return res.json(genJsonResponse(true, "Password changed successfully."));
+        try {
+            await authMailer.passwordChangeAlertMail(user);
+            return res.json(genJsonResponse(true, "Password changed successfully."));
+        } catch (emailError) {
+            console.error('Failed to send password change notification:', emailError);
+            // Still return success since password was changed
+            return res.json(genJsonResponse(true, "Password changed successfully but failed to send email notification."));
+        }
     } catch (err) {
         // Displaying error in console if there is any error while performing the above operations.
         console.log('Error : ', err);
